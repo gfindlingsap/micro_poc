@@ -1,0 +1,24 @@
+%YAML 1.1
+# This file is a Cloud Foundry application manifest.
+# Use it to deploy your mdfrspi service to a Cloud Foundry environment.
+# To do so with the Cloud Foundry CLI-tool, execute the following command in this directory:
+#
+#     cf push
+#
+# For more information see:
+# http://docs.cloudfoundry.org/devguide/deploy-apps/manifest.html
+---
+applications:
+- name: mdfrspi
+  instances: 1
+  memory: 512M
+  host: mdfrspi
+  path: target/mdfrspi.war
+  env:
+    # used in logging format and API Console
+    APP_NAME: mdfrspi
+    APP_VERSION: 1.0-SNAPSHOT
+    # The memory limit (set above) is the total available memory for the container. The Java buildpack uses this value to control the JRE's use of various regions of memory. The JRE memory settings can be influenced by configuring the memory_sizes, memory_heuristics, memory_initials and/or stack_threads mappings. You should be aware of the rational amount of memory which your application needs and adjust the values below accordingly. 
+    # Read more information about the available settings here: https://github.com/cloudfoundry/java-buildpack/blob/master/docs/jre-open_jdk_jre.md#memory.
+    # To helo diagnose and resolve memory issues you can also read the following page: https://docs.cloudfoundry.org/buildpacks/java/java-tips.html#memory-troubleshoot
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 1.8.0_+ }, memory_calculator: {memory_heuristics: {heap: 60, stack: 5, metaspace: 10, native: 25}, memory_sizes: {stack: 228k.., metaspace: 64m..}, stack_threads: 200 }}'
